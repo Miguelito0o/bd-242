@@ -1,0 +1,83 @@
+@startuml
+
+entity "TB_media_types" as e01{
+  * MediaTypeId: INTEGER
+  --
+    Name: NVARCHAR(120)
+}
+entity "TB_genres" as e02{
+  * GenreId: INTEGER
+  --
+    Name: NVARCHAR(120)
+}
+entity "TB_tracks" as e03{
+  * TrackId: INTEGER
+  --
+    Name: NVARCHAR(200)
+    AlbumId: INTEGER
+    MediaTyped: INTEGER
+    GenreId: INTEGER
+    Composer: NVARCHAR(220)
+    Miliseconds: INTEGER
+    Bytes: INTEGER
+    UnitPrice: NUMERIC 
+}
+entity "TB_playlists" as e04{
+    *PlaylistId: INTEGER
+    --
+    Name: NVARCHAR(120)
+}
+entity "TB_playlist_track" as e05{
+    *PlaylistId: INTEGER
+    *TrackId: INTEGER
+}
+entity "TB_artists" as e06{
+    *ArtistId: INTEGER
+    --
+    Name: NVARCHAR(120)
+}
+entity "TB_albuns" as e07{
+    *AlbumId: INTEGER
+    --
+    Title: NVARCHGAR(160)
+    ArtistId: INTEGER
+}
+entity "TB_employees" as e08{
+    *EmployeeId: INTEGER
+    --
+    LastName: NVARCHAR(20)
+    FirstName: NVARCHAR(20)
+    Title: NVARCHAR(30)
+    Reportsto: INTEGER
+    BirthDate: DATATIME
+    HireDate: DATETIME
+    Adress: NVARCHAR(70)
+}
+entity "TB_costumers" as e09{
+  *CostumerId: INTEGER
+  --
+  FirstName: NVARCHAR(40)
+  LastName: NVARCHAR(20)
+  Company: NVARCHAR(80)
+  Adress: NVARCHAR(70)
+  City: NVARCHAR(40)
+  Stat: NVARCHAR(40)
+  Country: NVARCHAR(40)
+  PostalCode: NVARCHAR(10)
+  Phone: NVARCHAR(24)
+  Fax: NVARCHAR(24)
+  Email: NVARCHAR(60)
+  SupportRepId: INTEGER
+}
+entity "TB_invoices" as e10 {
+  *InvoiceID: INTEGER
+  --
+  CostumerId: INTEGER
+  InvoiceDate: DATETIME
+  BillingAddress: N
+}
+e01 ||--o{ e03
+e02 }o..o| e03
+e05 |o--|| e04
+e05 |o--|| e03
+@enduml

@@ -1,7 +1,7 @@
 @startuml
 
 entity "TB_media_types" as e01{
-  * MediaTypeId: INTEGER
+  * id: INTEGER
   --
     Name: NVARCHAR(120)
 }
@@ -11,39 +11,39 @@ entity "TB_genres" as e02{
     Name: NVARCHAR(120)
 }
 entity "TB_tracks" as e03{
-  * TrackId: INTEGER
+  * playlist_track_id: INTEGER
   --
     Name: NVARCHAR(200)
-    AlbumId: INTEGER
-    MediaTyped: INTEGER
-    GenreId: INTEGER
+    albums_id: INTEGER
+    media_types_id: INTEGER
+    genres_id: INTEGER
     Composer: NVARCHAR(220)
     Miliseconds: INTEGER
     Bytes: INTEGER
     UnitPrice: NUMERIC 
 }
 entity "TB_playlists" as e04{
-    *PlaylistId: INTEGER
+    *id: INTEGER
     --
     Name: NVARCHAR(120)
 }
 entity "TB_playlist_track" as e05{
-    *PlaylistId: INTEGER
-    *TrackId: INTEGER
+    *playlist_id: INTEGER
+    *id: INTEGER
 }
 entity "TB_artists" as e06{
-    *ArtistId: INTEGER
+    *id: INTEGER
     --
     Name: NVARCHAR(120)
 }
-entity "TB_albuns" as e07{
-    *AlbumId: INTEGER
+entity "TB_albums" as e07{
+    *id: INTEGER
     --
     Title: NVARCHGAR(160)
-    ArtistId: INTEGER
+    artists_id: INTEGER
 }
 entity "TB_employees" as e08{
-    *EmployeeId: INTEGER
+    *id: INTEGER
     --
     LastName: NVARCHAR(20)
     FirstName: NVARCHAR(20)
@@ -54,7 +54,7 @@ entity "TB_employees" as e08{
     Adress: NVARCHAR(70)
 }
 entity "TB_costumers" as e09{
-  *CostumerId: INTEGER
+  *id: INTEGER
   --
   FirstName: NVARCHAR(40)
   LastName: NVARCHAR(20)
@@ -70,14 +70,30 @@ entity "TB_costumers" as e09{
   SupportRepId: INTEGER
 }
 entity "TB_invoices" as e10 {
-  *InvoiceID: INTEGER
+  *id: INTEGER
   --
-  CostumerId: INTEGER
+  costumers_id: INTEGER
   InvoiceDate: DATETIME
-  BillingAddress: N
+  BillingAddress: NVARCHAR(50)
+  BillingCity: NVARCHAR(50)
+}
+entity "TB_invoice_items" as e11{
+  *id: INTEGER
+  --
+  invoices_id: INTEGER
+  tracks_id: INTEGER
+  UnitPrice: NUMERIC
+  Quantity: INTEGER
 }
 e01 ||--o{ e03
-e02 }o..o| e03
+e03 }o--o| e02
 e05 |o--|| e04
 e05 |o--|| e03
+e06 ||--o{ e07
+e07 |o--o{ e03
+e08 |o--o{ e09
+e09 ||--o{ e10
+e10 ||--o{ e11
+e11 }o--|| e03
+
 @enduml
